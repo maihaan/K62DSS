@@ -7,9 +7,9 @@ using System.Text;
 
 namespace DSS.Controller
 {
-    public class CMenhDe
+    public class CChiTietLuat
     {
-        String tableName = "tbMenhDe";
+        String tableName = "tbChiTietLuat";
         String columnsName = "ID, Name";
         MyDataAccess da = new MyDataAccess();
 
@@ -27,17 +27,18 @@ namespace DSS.Controller
             return da.Read(query);
         }
 
-        public List<MMenhDe> SelectAllList()
+        public List<MChiTietLuat> SelectAllList()
         {
             DataTable tb = SelectAll();
             if (tb != null)
             {
-                List<MMenhDe> ds = new List<MMenhDe>();
+                List<MChiTietLuat> ds = new List<MChiTietLuat>();
                 foreach (DataRow r in tb.Rows)
                 {
-                    MMenhDe m = new MMenhDe();
+                    MChiTietLuat m = new MChiTietLuat();
                     m.ID = int.Parse(r["ID"].ToString());
-                    m.Name = r["Name"].ToString();
+                    m.RuleID = int.Parse(r["RuleID"].ToString());
+                    m.LeftID = int.Parse(r["LeftID"].ToString());
                     ds.Add(m);
                 }
                 return ds;
@@ -46,17 +47,18 @@ namespace DSS.Controller
                 return null;
         }
 
-        public List<MMenhDe> SelectAllList(String condition)
+        public List<MChiTietLuat> SelectAllList(String condition)
         {
             DataTable tb = SelectAll(condition);
             if (tb != null)
             {
-                List<MMenhDe> ds = new List<MMenhDe>();
+                List<MChiTietLuat> ds = new List<MChiTietLuat>();
                 foreach (DataRow r in tb.Rows)
                 {
-                    MMenhDe m = new MMenhDe();
+                    MChiTietLuat m = new MChiTietLuat();
                     m.ID = int.Parse(r["ID"].ToString());
-                    m.Name = r["Name"].ToString();
+                    m.RuleID = int.Parse(r["RuleID"].ToString());
+                    m.LeftID = int.Parse(r["LeftID"].ToString());
                     ds.Add(m);
                 }
                 return ds;
@@ -65,80 +67,74 @@ namespace DSS.Controller
                 return null;
         }
 
-        public MMenhDe GetByID(String id)
+
+        public MChiTietLuat GetByID(String id)
         {
-            List<MMenhDe> ds = SelectAllList("ID=" + id);
+            List<MChiTietLuat> ds = SelectAllList("ID=" + id);
             if (ds != null && ds.Count > 0)
                 return ds[0];
             else
                 return null;
         }
 
-        public Boolean Exist(String name)
+
+        public Boolean Exist(int luatID, int leftID)
         {
-            DataTable tb = SelectAll("Name=N'" + name + "'");
+            DataTable tb = SelectAll("RuleID=" + luatID.ToString() 
+                + " And LeftID=" + leftID.ToString());
             if (tb == null)
                 return false;
             else
                 return true;
         }
 
-        public Boolean ExistExceptID(String name, String id)
+        public Boolean ExistLeft(String leftID)
         {
-            DataTable tb = SelectAll("Name=N'" + name + "' And ID !=" + id);
+            DataTable tb = SelectAll("LeftID=" + leftID);
             if (tb == null)
                 return false;
             else
                 return true;
         }
 
-
-        public Boolean CanDelete(String id)
+        public int Insert(int luatID, int leftID)
         {
-            CLuat cLuat = new CLuat();
-            if (cLuat.ExitRight(id))
-                return false;
-            CChiTietLuat cChiTietLuat = new CChiTietLuat();
-            if (cChiTietLuat.ExistLeft(id))
-                return false;
-            return true;
-        }
-
-        public int Insert(String name)
-        {
-            if (!Exist(name))
+            if (!Exist(luatID, leftID))
             {
-                String query = "Insert Into " + tableName + "(Name) Values(N'"
-                    + name + "')";
+                String query = "Insert Into " + tableName + "(RuleID, LeftID) Values("
+                    + luatID.ToString() + "," + leftID.ToString() + ")";
                 return da.Write(query);
             }
             else
                 return 0;
         }
 
-        public int Insert(MMenhDe menhDe)
+        public int Insert(MChiTietLuat chiTietLuat)
         {
-            if (!Exist(menhDe.Name))
+            if (!Exist(chiTietLuat.RuleID, chiTietLuat.LeftID))
             {
-                String query = "Insert Into " + tableName + "(Name) Values(N'"
-                    + menhDe.Name + "')";
+                String query = "Insert Into " + tableName + "(RuleID, LeftID) Values("
+                    + chiTietLuat.RuleID.ToString() + ","
+                    + chiTietLuat.LeftID.ToString() + ")";
                 return da.Write(query);
             }
             else
                 return 0;
         }
 
-        public int Update(int id, String name)
+        public int Update(int id, int luatID, int leftID)
         {
-            String query = "Update " + tableName + " Set Name=N'"
-                + name + "' Where ID=" + id;
+            String query = "Update " + tableName + " Set RuleID="
+                + luatID.ToString() + ","
+                + leftID.ToString() + " Where ID=" + id;
             return da.Write(query);
         }
 
-        public int Update(MMenhDe menhDe)
+        public int Update(MChiTietLuat chiTietLuat)
         {
-            String query = "Update " + tableName + " Set Name=N'"
-                + menhDe.Name + "' Where ID=" + menhDe.ID;
+            String query = "Update " + tableName + " Set RuleID="
+                + chiTietLuat.RuleID.ToString() + ","
+                + chiTietLuat.LeftID.ToString() + " Where ID=" + chiTietLuat.ID;
             return da.Write(query);
         }
 
