@@ -149,13 +149,61 @@ namespace DSS.Controller
                 return 0;
         }
 
-        public int Update(int id, String name, String description, int rightID)
+        public int Update(int id, String name, String description, int rightID, List<MMenhDe> left)
         {
             String query = "Update " + tableName + " Set Name=N'"
                 + name + "', Description=N'"
                 + description + "', RightID="
                 + rightID + " Where ID=" + id;
-            return da.Write(query);
+            int dem = da.Write(query);
+            if(dem == 1)
+            {
+                MLuat ml = GetByID(id.ToString());
+                if(ml != null)
+                {
+                    List<MChiTietLuat> dscu = ml.ChiTietLuat();
+                    List<MMenhDe> dsLeftCu = new List<MMenhDe>();
+                    foreach(MChiTietLuat ct in dscu)
+                    {
+                        dsLeftCu.Add(ct.Left());
+                    }
+
+                    List<MMenhDe> dsThem = new List<MMenhDe>();
+                    List<MMenhDe> dsXoa = new List<MMenhDe>();
+                    foreach(MMenhDe mdc in dsLeftCu)
+                    {
+                        Boolean found = false;
+                        for(int i = 0; i < left.Count; i++)
+                        {
+                            if (left[i].ID.ToString().Equals(mdc.ID.ToString()))
+                                found = true;
+                        }
+                        if(!found)
+                            dsXoa.Add(mdc);
+                    }
+                    foreach(MMenhDe mdm in left)
+                    {
+                        Boolean found = false;
+                        for(int i = 0; i < dsLeftCu.Count; i++)
+                        {
+                            if (dsLeftCu[i].ID.ToString().Equals(mdm.ID.ToString()))
+                                found = true;
+                        }
+                        if (!found)
+                            dsThem.Add(mdm);
+                    }
+                    CChiTietLuat cct = new CChiTietLuat();
+                    foreach(MMenhDe md in dsXoa)
+                    {
+                        cct.Delete("RuleID=" + id + " And LeftID=" + md.ID.ToString());
+                    }    
+                    foreach(MMenhDe md in dsThem)
+                    {
+                        cct.Insert(id, md.ID);
+                    }    
+                }    
+            }
+            return dem;
         }
 
         public int Update(MLuat luat)
@@ -170,13 +218,32 @@ namespace DSS.Controller
         public int Delete(int id)
         {
             String query = "Delete " + tableName + " Where ID=" + id;
-            return da.Write(query);
+            int dem = da.Write(query);
+            if(dem == 1)
+            {
+                CChiTietLuat cct = new CChiTietLuat();
+                cct.Delete("RuleID=" + id.ToString());
+            }
+            return dem;
         }
 
         public int Delete(String condition)
         {
             String query = "Delete " + tableName + " Where " + condition;
-            return da.Write(query);
+            DataTable tb = da.Read("Select ID From " + tableName + " Where " + condition);
+            int demTong = 0;
+            foreach (DataRow r in tb.Rows)
+            {
+                String id = r["ID"].ToString();
+                int dem = Delete(id);
+                demTong += dem;
+                if (dem == 1)
+                {
+                    CChiTietLuat cct = new CChiTietLuat();
+                    cct.Delete("RuleID=" + id.ToString());
+                }
+            }
+            return demTong;
         }
     }
 }

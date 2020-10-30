@@ -96,6 +96,7 @@
             this.btCapNhat.TabIndex = 5;
             this.btCapNhat.Text = "Cập nhật";
             this.btCapNhat.UseVisualStyleBackColor = true;
+            this.btCapNhat.Click += new System.EventHandler(this.btCapNhat_Click);
             // 
             // btXoa
             // 
@@ -105,6 +106,7 @@
             this.btXoa.TabIndex = 6;
             this.btXoa.Text = "Xóa";
             this.btXoa.UseVisualStyleBackColor = true;
+            this.btXoa.Click += new System.EventHandler(this.btXoa_Click);
             // 
             // label3
             // 

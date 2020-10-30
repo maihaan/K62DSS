@@ -16,7 +16,7 @@ namespace DSS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GLuat());
+            Application.Run(new GMain());
         }
     }
 }

@@ -9,3 +9,4 @@ C:\Users\Admin\source\repos\K62DSS\DSS\obj\Debug\DSS.csproj.CoreCompileInputs.ca
 C:\Users\Admin\source\repos\K62DSS\DSS\obj\Debug\DSS.exe
 C:\Users\Admin\source\repos\K62DSS\DSS\obj\Debug\DSS.pdb
 C:\Users\Admin\source\repos\K62DSS\DSS\obj\Debug\DSS.GUI.GLuat.resources
+C:\Users\Admin\source\repos\K62DSS\DSS\obj\Debug\DSS.GUI.GMain.resources

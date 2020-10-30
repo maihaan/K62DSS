@@ -61,6 +61,12 @@
     <Compile Include="GUI\GLuat.Designer.cs">
       <DependentUpon>GLuat.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\GMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\GMain.Designer.cs">
+      <DependentUpon>GMain.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\GMenhDe.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +84,9 @@
     <EmbeddedResource Include="GUI\GLuat.resx">
       <DependentUpon>GLuat.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\GMain.resx">
+      <DependentUpon>GMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\GMenhDe.resx">
       <DependentUpon>GMenhDe.cs</DependentUpon>
     </EmbeddedResource>
@@ -89,6 +98,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -100,6 +110,20 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\detail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TramIcon20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\corner50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VideoIcon20.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
